@@ -70,45 +70,12 @@ module Grabbit
     	images_array = []
 
     	if @doc
-	    	# Look for OG:Image first
-	    	@doc.search('//meta[@property="og:image"]/@content').each do |a|
-	    		images_array << image_absolute_uri(a.value)
-	    	end
-	    
-	    	
-	    	# Look for Twitter:Image
-	    	@doc.search('//meta[@name="twitter:image:src"]/@content').each do |a|
-	    		images_array << image_absolute_uri(a.value)
-	    	end	    		
-	    
-
-      	# Next look for image with id of main-image (--> Amazon) or prodImage (--> WalMart)
-      	@doc.search('//img[@id="main-image" or @id="prodImage"]/@src').each do |a| 
-	    		images_array << image_absolute_uri(a.value)
-      	end
-	  	
-
-	      # Now search for all images within divs with id="content" excluding sidebar, comment, footer and header sections.
-  	    @doc.search("//img[not(ancestor::*[contains(@id, 'sidebar') or contains(@id, 'comment') or contains(@id, 'footer') or contains(@id, 'header')]) and ancestor::*[contains(@id, 'content')]]/@src").each do |a|
-	    		images_array << image_absolute_uri(a.value)  	    	
-  	    end
-	    	
-
-
-      	# Now search for all images in the whole page excluding sidebar, comment, footer and header sections.
-      	@doc.search("//img[not(ancestor::*[contains(@id, 'sidebar') or contains(@id, 'comment') or contains(@id, 'footer') or contains(@id, 'header')])]/@src").each do |a|
-	    		images_array << image_absolute_uri(a.value)      	
-      	end
-   	
-
-
-      	# Now search for all images in the whole page
-      	@doc.search("//img/@src").each do |a|
-	    		images_array << image_absolute_uri(a.value)      		
-    		end
-
-    	end
-    	images_array
+		# Now search for all images in the whole page
+		@doc.search("//img/@src").each do |a|
+				images_array << image_absolute_uri(a.value)      		
+			end
+		images_array
+   	 end
     end
 
     private 
